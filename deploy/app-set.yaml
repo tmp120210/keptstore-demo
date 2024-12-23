@@ -8,17 +8,19 @@ spec:
   generators:
   - list:
       elements:
-      - namespace: engineering-dev
-      - namespace: engineering-prod
-      - namespace: finance-preprod
+      - cluster: engineering-dev
+      - cluster: engineering-prod
+      - cluster: finance-preprod
+        
   template:
     metadata:
-      name: '{{.namespace}}-helloapp'
+      name: '{{.cluster}}-hello-app'
     spec:
       project: hello-app
       source:
-        repoURL: https://github.com/tmp120210/keptstore-demo
+        repoURL: https://github.com/tmp120210/keptstore-demo.git
         targetRevision: HEAD
-        path: deploy/
+        path: deploy
       destination:
-        namespace: {{.namespace}}
+        server: https://kubernetes.default.svc
+        namespace: {{.cluster}}
