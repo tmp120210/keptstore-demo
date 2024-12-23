@@ -1,0 +1,15 @@
+{
+  "name": "keptstore-cluster",
+  "version": "1.0.0",
+  "description": "test for deply",
+  "main": "app.js",
+  "scripts": {
+    "start": "node ./app.js",
+    "test": "test"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
