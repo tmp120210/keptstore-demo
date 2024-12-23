@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: guestbook
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+  - list:
+      elements:
+      - namespace: engineering-dev
+      - namespace: engineering-prod
+      - namespace: finance-preprod
+  template:
+    metadata:
+      name: '{{.namespace}}-helloapp'
+    spec:
+      project: hello-app
+      source:
+        repoURL: https://github.com/tmp120210/keptstore-demo
+        targetRevision: HEAD
+        path: deploy/
+      destination:
+        namespace: {{.namespace}}
