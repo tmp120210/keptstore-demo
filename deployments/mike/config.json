@@ -1,6 +1,6 @@
 {
     "cluster": {
-        "name": "engineering-tmp",
+        "name": "engineering-mike",
         "address": "https://kubernetes.default.svc"
     }
 }
