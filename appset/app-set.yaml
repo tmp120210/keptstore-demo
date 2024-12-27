@@ -25,6 +25,8 @@ spec:
         server: '{{.cluster.address}}'
         namespace: '{{.cluster.name}}'
       syncPolicy:
-        automated: {}
+        automated: 
+          prune: true
+          allowEmpty: true
         syncOptions:
         - CreateNamespace=true      
