@@ -10,17 +10,15 @@ spec:
   #     elements:
   #     - cluster: engineering-dev
   #       url: https://kubernetes.default.svc
-  #     - cluster: engineering-prod
-  #       url: https://kubernetes.default.svc
 
   - git:
       repoURL: https://github.com/tmp120210/keptstore-demo.git
       revision: HEAD
-      directories:
-      - path: 'deployments/*' 
+      files:
+      - path: "deployments/**/config.json"
       values:
-        cluster: '{{.branch}}-{{.path.basename}}'
-        url: 'https://kubernetes.default.svc'
+        cluster: engineering-git
+        url: https://kubernetes.default.svc
   template:
     metadata:
       name: '{{.cluster}}-helloapp'
