@@ -1,0 +1,6 @@
+{
+    "cluster": {
+        "name": "engineering-ddd",
+        "address": "https://kubernetes.default.svc"
+    }
+}
