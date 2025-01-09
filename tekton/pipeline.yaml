@@ -6,6 +6,8 @@ spec:
   params:
   - name: username
     type: string
+  - name: wait-time
+    type: string
   workspaces:
     - name: shared-workspace 
   tasks:
@@ -19,6 +21,7 @@ spec:
       params:
       - name: username
         value: $(params.username)
+
     - name: write-file
       taskRef:
         name: write-file
@@ -39,6 +42,7 @@ spec:
           }
       runAfter:
         - git-clone
+
     - name: git-push
       taskRef:
         name: git-push
@@ -51,3 +55,18 @@ spec:
           value: $(params.username)
       runAfter:
         - write-file
+      
+    - name: git-delete-branch
+      taskRef:
+        name: git-delete-branch
+        kind: Task
+      workspaces:
+        - name: output
+          workspace: shared-workspace
+      params:
+        - name: username
+          value: $(params.username)
+        - name: wait-time
+          value: $(params.wait-time)
+      runAfter:
+        - git-push
