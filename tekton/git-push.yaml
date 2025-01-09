@@ -3,6 +3,9 @@ kind: Task
 metadata:
   name: git-push
 spec:
+  params:
+    - name: username
+      type: string
   workspaces:
     - name: output
   steps:
@@ -12,11 +15,9 @@ spec:
       script: |
         #!/bin/bash
         set -eu
-        echo "Current working directory: $(pwd)"
-        ls -l
-        git config --global user.email "anast.losikova@gmail.com"
-        git config --global user.name "Anastasia Losikova"
+        git config --global user.email "$(params.username)@gmail.com"
+        git config --global user.name $(params.username)
         git remote set-url origin https://<GIT_PAT>@github.com/tmp120210/keptstore-demo.git
         git add .
         git commit -m "New config"
-        git push origin new-user
+        git push origin $(params.username)
