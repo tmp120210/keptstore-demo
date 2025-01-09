@@ -1,0 +1,22 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: git-push
+spec:
+  workspaces:
+    - name: output
+  steps:
+    - name: git-push
+      image: docker.io/bitnami/git
+      workingDir: $(workspaces.output.path)
+      script: |
+        #!/bin/bash
+        set -eu
+        echo "Current working directory: $(pwd)"
+        ls -l
+        git config --global user.email "anast.losikova@gmail.com"
+        git config --global user.name "Anastasia Losikova"
+        git remote set-url origin https://<GIT_PAT>@github.com/tmp120210/keptstore-demo.git
+        git add .
+        git commit -m "New config"
+        git push origin new-user

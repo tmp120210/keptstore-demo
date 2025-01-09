@@ -11,4 +11,9 @@ spec:
       image: ubuntu
       script: |
         #!/bin/bash
-        echo "Goodbye $(params.username)!"     
+        folder_name="$RANDOM-folder"
+        # Создание папки внутри /workspace (предположительно проект в этом каталоге)
+        mkdir -p $folder_name
+        # Запись сообщения в файл
+        echo "Goodbye $(params.username)!" > $folder_name/message.json
+        echo "File created at /workspace/deployments/$folder_name/message.json"

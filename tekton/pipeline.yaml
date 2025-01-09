@@ -6,11 +6,42 @@ spec:
   params:
   - name: username
     type: string
+  workspaces:
+    - name: shared-workspace 
   tasks:
-    
-    - name: goodbye
+    - name: git-clone
       taskRef:
-        name: goodbye
+        name: git-clone
+        kind: Task
+      workspaces:
+        - name: output
+          workspace: shared-workspace
+    - name: write-file
+      taskRef:
+        name: write-file
+        kind: Task
+      workspaces:
+        - name: output
+          workspace: shared-workspace
       params:
-      - name: username
-        value: $(params.username)
+      - name: path
+        value: deployments/new-user/config.json
+      - name: contents
+        value: |
+          {
+              "cluster": {
+                  "name": "engineering-new-user",
+                  "address": "https://kubernetes.default.svc"
+              }
+          }
+      runAfter:
+        - git-clone
+    - name: git-push
+      taskRef:
+        name: git-push
+        kind: Task
+      workspaces:
+        - name: output
+          workspace: shared-workspace
+      runAfter:
+        - write-file

@@ -8,3 +8,12 @@ spec:
   params:
   - name: username
     value: "Tekton"
+  workspaces:
+    - name: shared-workspace
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 1Gi

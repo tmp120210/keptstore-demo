@@ -1,0 +1,18 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: git-clone
+spec:
+  workspaces:
+    - name: output
+  steps:
+    - name: git-clone
+      image: docker.io/bitnami/git
+      workingDir: $(workspaces.output.path)
+      script: |
+        #!/bin/bash
+        set -eu
+        git clone https://github.com/tmp120210/keptstore-demo.git .
+        git checkout -b new-user
+        echo "Current working directory: $(pwd)"
+        ls -l
