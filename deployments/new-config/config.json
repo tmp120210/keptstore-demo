@@ -1,0 +1,6 @@
+{
+    "cluster": {
+        "name": "engineering-new-config",
+        "address": "https://kubernetes.default.svc"
+    }
+}
