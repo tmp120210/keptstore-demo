@@ -9,7 +9,7 @@ spec:
   - name: username
     value: "tekton"
   - name: wait-time
-    value: "20"
+    value: "30"
   workspaces:
     - name: shared-workspace
       volumeClaimTemplate:
