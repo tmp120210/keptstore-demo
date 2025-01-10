@@ -18,6 +18,6 @@ spec:
         git config --global user.email "$(params.username)@gmail.com"
         git config --global user.name $(params.username)
         git remote set-url origin https://<GIT_PAT>@github.com/tmp120210/keptstore-demo.git
-        git add .
+        git add -A
         git commit -m "New config for $(params.username)"
-        git push origin $(params.username)
+        git push origin HEAD:deployments
