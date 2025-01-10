@@ -1,0 +1,6 @@
+{
+    "cluster": {
+        "name": "engineering-tekton",
+        "address": "https://kubernetes.default.svc"
+    }
+}
