@@ -22,10 +22,24 @@ spec:
         - containerPort: 8080
 
 ---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-app
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    targetPort: 8080
+  selector:
+    app: hello-app
+
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: hello-ingress
+  name: hello-app
 spec:
   rules:
   - http:
@@ -36,5 +50,5 @@ spec:
           service:
             name: hello-app
             port:
-              number: 8080
+              number: 80
 ---
