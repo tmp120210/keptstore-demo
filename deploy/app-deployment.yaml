@@ -22,19 +22,6 @@ spec:
         - containerPort: 8080
 
 ---
-kind: Service
-apiVersion: v1
-metadata:
-  name: hello-service
-spec:
-  selector:
-    app: hello-app
-  ports:
-  # Default port used by the image
-  - port: 8080
-    targetPort: 8080
-
----
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -47,7 +34,7 @@ spec:
         path: /hello
         backend:
           service:
-            name: hello-service
+            name: hello-app
             port:
               number: 8080
 ---
