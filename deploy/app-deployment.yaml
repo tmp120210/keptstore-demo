@@ -32,6 +32,7 @@ spec:
   ports:
   # Default port used by the image
   - port: 8080
+    targetPort: 8080
 
 ---
 apiVersion: networking.k8s.io/v1
