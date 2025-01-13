@@ -45,7 +45,7 @@ spec:
   - http:
       paths:
       - pathType: Prefix
-        path: /hello
+        path: /
         backend:
           service:
             name: hello-app
