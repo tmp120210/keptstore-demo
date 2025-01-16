@@ -1,10 +1,21 @@
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
-  name: hello-goodbye-run
+  name: create-demo-run
 spec:
   pipelineRef:
-    name: hello-goodbye
+    name: create-demo
   params:
   - name: username
-    value: "Tekton"
+    value: "tekton"
+  - name: wait-time
+    value: "30"
+  workspaces:
+    - name: shared-workspace
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 10Mi

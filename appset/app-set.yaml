@@ -9,7 +9,7 @@ spec:
   generators:
   - git:
       repoURL: https://github.com/tmp120210/keptstore-demo.git
-      revision: HEAD
+      revision: deployments
       files:
       - path: "deployments/**/config.json"
   template:

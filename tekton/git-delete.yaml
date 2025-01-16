@@ -1,0 +1,41 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: git-delete
+spec:
+  params:
+  - name: username
+    type: string
+  - name: wait-time
+    type: string
+  workspaces:
+    - name: output
+  steps:
+    - name: delete
+      image: docker.io/bitnami/git
+      workingDir: $(workspaces.output.path)
+      script: |
+        #!/bin/bash
+        set -eu
+        wait_time=$(( $(params.wait-time) ))
+        echo "Waiting for $wait_time seconds before deleting $(params.username) config..."
+        sleep $wait_time
+
+        echo "Deleting $(params.username) config..."
+        git pull
+
+        folder_to_delete="deployments/$(params.username)"
+        if [ -d "$folder_to_delete" ]; then
+          rm -rf "$folder_to_delete"
+          echo "Folder $folder_to_delete deleted."
+        else
+          echo "Folder $folder_to_delete does not exist."
+        fi
+
+        git config --global user.email "$(params.username)@gmail.com"
+        git config --global user.name $(params.username)
+        echo "Committing and pushing changes..."
+        git add -A
+        git commit -m "Deleted $(params.username) config"
+        git push origin HEAD:deployments
+        echo "Changes pushed to remote."

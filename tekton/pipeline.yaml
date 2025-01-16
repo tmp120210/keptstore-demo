@@ -1,16 +1,69 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: hello-goodbye
+  name: create-demo
 spec:
   params:
   - name: username
     type: string
+  - name: wait-time
+    type: string
+  workspaces:
+    - name: shared-workspace 
   tasks:
-    
-    - name: goodbye
+    - name: git-clone
       taskRef:
-        name: goodbye
+        name: git-clone
+        kind: Task
+      workspaces:
+        - name: output
+          workspace: shared-workspace
+
+    - name: write-file
+      taskRef:
+        name: write-file
+        kind: Task
+      workspaces:
+        - name: output
+          workspace: shared-workspace
       params:
-      - name: username
-        value: $(params.username)
+      - name: path
+        value: deployments/$(params.username)/config.json
+      - name: contents
+        value: |
+          {
+              "cluster": {
+                  "name": "engineering-$(params.username)",
+                  "address": "https://kubernetes.default.svc"
+              }
+          }
+      runAfter:
+        - git-clone
+
+    - name: git-push
+      taskRef:
+        name: git-push
+        kind: Task
+      workspaces:
+        - name: output
+          workspace: shared-workspace
+      params:
+        - name: username
+          value: $(params.username)
+      runAfter:
+        - write-file
+      
+    - name: git-delete
+      taskRef:
+        name: git-delete
+        kind: Task
+      workspaces:
+        - name: output
+          workspace: shared-workspace
+      params:
+        - name: username
+          value: $(params.username)
+        - name: wait-time
+          value: $(params.wait-time)
+      runAfter:
+        - git-push
